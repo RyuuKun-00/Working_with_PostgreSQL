@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TestTaskWithDB.Abstractions;
+using TestTaskWithDB.DataAccess;
 using TestTaskWithDB.Model;
 using TestTaskWithDB.Services;
 
@@ -36,8 +38,21 @@ namespace TestTaskWithDB
             services.AddSingleton<IConfiguration>(_configuration);
             // Добавление и сохраниение входных параметров консоли
             services.AddSingleton<IInputArguments, InputArguments>(_ => new InputArguments(args));
+            // Добавление строки подключения к бд в контейнер
+            var strCon = GetStringConnection();
+            services.AddDbContext<ApplicationContext>(o => o.UseNpgsql(strCon));
+            //==================ДОБАВЛЕНИЕ СЕРВИСОВ==================
+
+            services.AddTransient<IDBService, DBService>();
 
             return services;
+        }
+
+        private string GetStringConnection()
+        {
+            // Получение строки подключения к бд
+            return _configuration.GetConnectionString("DefaultConnection") ??
+                throw new InvalidOperationException($"Connection string \"DefaultConnection\" not found.");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using TestTaskWithDB.Abstractions;
 using Microsoft.Extensions.Logging;
+using TestTaskWithDB.DataAccess;
 
 namespace TestTaskWithDB.Services
 {
