@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TestTaskWithDB.Abstractions;
+using TestTaskWithDB.Model;
 using TestTaskWithDB.Services;
 
 namespace TestTaskWithDB
@@ -21,9 +22,10 @@ namespace TestTaskWithDB
         /// <summary>
         /// Метод установки зависимостей для приложения
         /// </summary>
-        /// <param name="services"></param>
+        /// <param name="services">Коллекция сервисов для привязки</param>
+        /// <param name="args">Параметры командной строки</param>
         /// <returns></returns>
-        public IServiceCollection ConfigureServices(IServiceCollection services)
+        public IServiceCollection ConfigureServices( IServiceCollection services, string[] args)
         {
 
             // Стартовый сервис запуска приложения
@@ -32,6 +34,8 @@ namespace TestTaskWithDB
             services.AddLogging(builder => builder.AddConsole());
             // Добавление конфигурации в контейнер
             services.AddSingleton<IConfiguration>(_configuration);
+            // Добавление и сохраниение входных параметров консоли
+            services.AddSingleton<IInputArguments, InputArguments>(_ => new InputArguments(args));
 
             return services;
         }

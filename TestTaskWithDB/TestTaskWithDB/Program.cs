@@ -10,12 +10,12 @@ namespace TestTaskWithDB
         static void Main(string[] args)
         {
             // Сборка конфигурации приложения
-            var configuration = CreateConfigurationBuilder(args)
+            var configuration = CreateConfigurationBuilder()
                                 .Build();
             // Создаём класс сборки приложения
             var startup = new Startup(configuration);
             // Собираем сервис
-            var serviceProvider = startup.ConfigureServices(new ServiceCollection())
+            var serviceProvider = startup.ConfigureServices(new ServiceCollection(),args)
                                          .BuildServiceProvider();
             // Получаем сервис запуска приложения и запускаем его
             var runner = serviceProvider.GetRequiredService<IApplicationRunner>();
@@ -25,9 +25,8 @@ namespace TestTaskWithDB
         /// <summary>
         /// Метод сборки конфигурации приложения
         /// </summary>
-        /// <param name="args">Входные парамметры</param>
         /// <returns>Конструктор конфигурации</returns>
-        private static IConfigurationBuilder CreateConfigurationBuilder(string[] args)
+        private static IConfigurationBuilder CreateConfigurationBuilder()
         {
             return new ConfigurationBuilder()
                 .SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!)
