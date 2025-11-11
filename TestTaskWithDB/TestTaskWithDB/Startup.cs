@@ -30,11 +30,10 @@ namespace TestTaskWithDB
         /// <returns></returns>
         public IServiceCollection ConfigureServices( IServiceCollection services, string[] args)
         {
-
             // Стартовый сервис запуска приложения
             services.AddTransient<IApplicationRunner,ApplicationRunner>();
             // Добавление сервиса логгирования
-            services.AddLogging(builder => builder.AddConsole());
+            services.AddLogging(builder => builder.AddConfiguration(_configuration.GetSection("Logging")).AddConsole());
             // Добавление конфигурации в контейнер
             services.AddSingleton<IConfiguration>(_configuration);
             // Добавление и сохраниение входных параметров консоли
