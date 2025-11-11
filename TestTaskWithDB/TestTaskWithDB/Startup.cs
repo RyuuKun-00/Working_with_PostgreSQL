@@ -6,6 +6,7 @@ using TestTaskWithDB.Abstractions;
 using TestTaskWithDB.DataAccess;
 using TestTaskWithDB.Model;
 using TestTaskWithDB.Services;
+using TestTaskWithDB.Tasks;
 
 namespace TestTaskWithDB
 {
@@ -44,6 +45,11 @@ namespace TestTaskWithDB
             //==================ДОБАВЛЕНИЕ СЕРВИСОВ==================
 
             services.AddTransient<IDBService, DBService>();
+            services.AddTransient<ITaskManager, TaskManager>();
+
+            //===================ДОБАВЛЕНИЕ  ЗАДАЧ===================
+            services.AddTransient<TaskOne>();
+
 
             return services;
         }

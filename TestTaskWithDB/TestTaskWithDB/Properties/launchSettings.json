@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TestTaskWithDB": {
+      "commandName": "Project",
+      "commandLineArgs": "1"
+    }
+  }
+}
