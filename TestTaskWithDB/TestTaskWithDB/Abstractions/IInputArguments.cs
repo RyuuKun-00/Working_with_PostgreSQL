@@ -1,4 +1,4 @@
-﻿namespace TestTaskWithDB.Model
+﻿namespace TestTaskWithDB.Abstractions
 {
     /// <summary>
     /// Шаблон хранения входящих аргументов

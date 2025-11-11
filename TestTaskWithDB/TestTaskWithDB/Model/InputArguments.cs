@@ -1,4 +1,6 @@
-﻿namespace TestTaskWithDB.Model
+﻿using TestTaskWithDB.Abstractions;
+
+namespace TestTaskWithDB.Model
 {
     /// <summary>
     /// Реализация <see cref="IInputArguments">IInputArguments</see>
