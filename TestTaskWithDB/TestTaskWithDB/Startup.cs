@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TestTaskWithDB.Abstractions;
 using TestTaskWithDB.DataAccess;
+using TestTaskWithDB.DataAccess.Repositories;
 using TestTaskWithDB.Model;
 using TestTaskWithDB.Services;
 using TestTaskWithDB.Tasks;
@@ -45,6 +46,8 @@ namespace TestTaskWithDB
 
             services.AddTransient<IDBService, DBService>();
             services.AddSingleton<ITaskManager, TaskManager>();
+            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            services.AddTransient<IEmployeeService, EmployeeService>();
 
 
             return services;

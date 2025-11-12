@@ -1,4 +1,4 @@
-﻿namespace TestTaskWithDB.DataAccess.Entities.Enums
+﻿namespace TestTaskWithDB.Enums
 {
     /// <summary>
     /// Перечисление гендера

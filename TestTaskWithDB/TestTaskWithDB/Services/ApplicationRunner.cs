@@ -28,14 +28,25 @@ namespace TestTaskWithDB.Services
 
         public void Run()
         {
-            // метод запуска приложения
-            _logger.LogInformation("Приложение запущено...");
-            // добавление обработчика для команды 1
-            _manager.AddCommandHandler(new TaskOne(_serviceProvider));
+            try
+            {
+                // метод запуска приложения
+                _logger.LogInformation("Приложение запущено...");
+                // добавление обработчика для команды 1
+                _manager.AddCommandHandler(new TaskOne(_serviceProvider));
+                // добавление обработчика для команды 2
+                _manager.AddCommandHandler(new TaskTwo(_serviceProvider));
 
-            _manager.Execute(_arguments.Args);
+                _manager.Execute(_arguments.Args).Wait();
 
-            Console.ReadLine();
+                _logger.LogInformation("Рабоота завершена...");
+
+                Console.ReadLine();
+            }catch(Exception ex)
+            {
+                _logger.LogCritical(ex, "Получена не предвиденная ошибка. Приложение завершает работу.");
+                throw;
+            }
         }
     }
 }
