@@ -44,7 +44,7 @@ namespace TestTaskWithDB
             //==================ДОБАВЛЕНИЕ СЕРВИСОВ==================
 
             services.AddTransient<IDBService, DBService>();
-            services.AddTransient<ITaskManager, TaskManager>();
+            services.AddSingleton<ITaskManager, TaskManager>();
 
             //===================ДОБАВЛЕНИЕ  ЗАДАЧ===================
             services.AddTransient<TaskOne>();

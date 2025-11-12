@@ -1,5 +1,6 @@
 ﻿
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Reflection.Metadata;
 using TestTaskWithDB.Abstractions;
@@ -19,11 +20,10 @@ namespace TestTaskWithDB.Tasks
         private readonly ILogger<TaskOne> _logger;
         private readonly IDBService _dBService;
         public string Command { get; init; } = "1";
-        public TaskOne(ILogger<TaskOne> logger,
-                       IDBService dBService)
+        public TaskOne(IServiceProvider serviceProvider)
         {
-            _logger = logger;
-            _dBService = dBService;
+            _logger = serviceProvider.GetRequiredService<ILogger<TaskOne>>(); ;
+            _dBService = serviceProvider.GetRequiredService<IDBService>(); ;
         }
         public async Task<bool> Invoke(string[] args)
         {
