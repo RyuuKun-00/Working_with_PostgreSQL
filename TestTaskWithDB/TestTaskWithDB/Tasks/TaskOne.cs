@@ -22,8 +22,8 @@ namespace TestTaskWithDB.Tasks
         public string Command { get; init; } = "1";
         public TaskOne(IServiceProvider serviceProvider)
         {
-            _logger = serviceProvider.GetRequiredService<ILogger<TaskOne>>(); ;
-            _dBService = serviceProvider.GetRequiredService<IDBService>(); ;
+            _logger = serviceProvider.GetRequiredService<ILogger<TaskOne>>();
+            _dBService = serviceProvider.GetRequiredService<IDBService>();
         }
         public async Task<bool> Invoke(string[] args)
         {
