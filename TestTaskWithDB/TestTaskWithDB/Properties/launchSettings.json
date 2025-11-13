@@ -2,7 +2,7 @@
   "profiles": {
     "TestTaskWithDB": {
       "commandName": "Project",
-      "commandLineArgs": "3 + \"Семёнов Роман Олегович\" 1999-06-10 Male"
+      "commandLineArgs": "4"
     }
   }
 }

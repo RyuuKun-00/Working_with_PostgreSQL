@@ -1,6 +1,7 @@
 ﻿using TestTaskWithDB.Abstractions;
 using Microsoft.Extensions.Logging;
 using TestTaskWithDB.Tasks;
+using TestTaskWithDB.Tasks.TaskFour;
 
 namespace TestTaskWithDB.Services
 {
@@ -38,6 +39,8 @@ namespace TestTaskWithDB.Services
                 _manager.AddCommandHandler(new TaskTwo(_serviceProvider));
                 // добавление обработчика для команды 3
                 _manager.AddCommandHandler(new TaskThree(_serviceProvider));
+                // добавление обработчика для команды 4
+                _manager.AddCommandHandler(new TaskFour(_serviceProvider));
 
                 _manager.Execute(_arguments.Args).Wait();
 
@@ -49,7 +52,6 @@ namespace TestTaskWithDB.Services
             }catch(Exception ex)
             {
                 _logger.LogCritical(ex, "Получена не предвиденная ошибка. Приложение завершает работу.");
-                throw;
             }
         }
     }
