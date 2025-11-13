@@ -1,4 +1,5 @@
-﻿using TestTaskWithDB.Model;
+﻿using TestTaskWithDB.DataAccess.Entities;
+using TestTaskWithDB.Model;
 
 namespace TestTaskWithDB.Abstractions
 {
@@ -19,5 +20,12 @@ namespace TestTaskWithDB.Abstractions
         /// <param name="employees">Список моделей сотрудников</param>
         /// <returns>Кол-во добавленных записей</returns>
         Task<int> AddEmployee(List<Employee> employees);
+
+        /// <summary>
+        /// Метод получения всех строк справочника сотрудников, 
+        /// <br/>с уникальным значением ФИО+дата, отсортированным по ФИО
+        /// </summary>
+        /// <returns>Список моделй</returns>
+        Task<List<Employee>> GetUniqueEmployees();
     }
 }

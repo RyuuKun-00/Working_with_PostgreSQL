@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TestTaskWithDB.DataAccess.Entities;
+using TestTaskWithDB.Model;
 
 namespace TestTaskWithDB.DataAccess
 {
@@ -21,7 +22,46 @@ namespace TestTaskWithDB.DataAccess
         /// <returns>Результат содания</returns>
         public async Task<bool> CreateDB()
         {
-            return await Database.EnsureCreatedAsync();
+            var isCreated = await Database.EnsureCreatedAsync();
+            if (!isCreated)
+            {
+                return false;
+            }
+
+            // Добавление встроенной функции в бд для выпонения 2 задания
+            // Получения уникальных сотрудников
+            await Database.ExecuteSqlRawAsync(
+                """
+                CREATE FUNCTION GetEmployees()
+                RETURNS TABLE
+                (
+                	"Id" uuid, 
+                	"FullName" text,
+                	"DOB" date,
+                	"Gender" smallint
+                	)
+                AS $$
+                BEGIN
+                  RETURN QUERY
+                    SELECT
+                	    "Employees".*
+                    FROM "Employees",
+                    (
+                	    SELECT "Employees"."FullName",
+                			    "Employees"."DOB",
+                			    COUNT(*) as "Count"
+                	    FROM "Employees"
+                	    GROUP BY "Employees"."FullName",
+                			     "Employees"."DOB"
+                	    HAVING COUNT(*) = 1
+                	    ORDER BY "Employees"."FullName" ASC
+                    ) AS "UniqueEmployees"
+                    WHERE "Employees"."FullName" = "UniqueEmployees"."FullName"
+                	    AND "Employees"."DOB" = "UniqueEmployees"."DOB";
+                END;
+                $$ LANGUAGE plpgsql;
+                """);
+            return true;
         }
         /// <summary>
         /// Метод удаления БД

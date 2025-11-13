@@ -36,12 +36,16 @@ namespace TestTaskWithDB.Services
                 _manager.AddCommandHandler(new TaskOne(_serviceProvider));
                 // добавление обработчика для команды 2
                 _manager.AddCommandHandler(new TaskTwo(_serviceProvider));
+                // добавление обработчика для команды 3
+                _manager.AddCommandHandler(new TaskThree(_serviceProvider));
 
                 _manager.Execute(_arguments.Args).Wait();
 
-                _logger.LogInformation("Рабоота завершена...");
+                _logger.LogInformation("Нажмите Enter для завершения работы.");
 
                 Console.ReadLine();
+
+                _logger.LogInformation("Работа приложения завершена...");
             }catch(Exception ex)
             {
                 _logger.LogCritical(ex, "Получена не предвиденная ошибка. Приложение завершает работу.");

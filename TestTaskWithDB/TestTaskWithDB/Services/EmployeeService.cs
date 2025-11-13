@@ -30,5 +30,12 @@ namespace TestTaskWithDB.Services
             _logger.LogInformation($"Добавлено сотрудников: {count}");
             return count;
         }
+
+        public async Task<List<Employee>> GetUniqueEmployees()
+        {
+            var result = await _repository.GetUniqueEmployees();
+            _logger.LogInformation($"Получено сотрудников с уникальными ФИО+дата: {result.Count}");
+            return result;
+        }
     }
 }

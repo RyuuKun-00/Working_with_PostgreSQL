@@ -1,5 +1,6 @@
 ﻿
 
+using Microsoft.EntityFrameworkCore;
 using TestTaskWithDB.Abstractions;
 using TestTaskWithDB.DataAccess.Entities;
 using TestTaskWithDB.Model;
@@ -50,6 +51,15 @@ namespace TestTaskWithDB.DataAccess.Repositories
             var count = await _context.SaveChangesAsync();
 
             return count;
+        }
+
+        public async Task<List<Employee>> GetUniqueEmployees()
+        {
+            var entities = await _context.Employees
+                                         .FromSqlRaw("SELECT * FROM GetEmployees();")
+                                         .ToListAsync();
+            return entities.Select<EmployeeEntity, Employee>(e => new Employee(e.Id, e.FullName, e.DOB, e.Gender))
+                           .ToList();
         }
     }
 }
