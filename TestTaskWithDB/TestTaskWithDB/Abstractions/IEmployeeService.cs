@@ -1,4 +1,5 @@
-﻿using TestTaskWithDB.Model;
+﻿using TestTaskWithDB.Enums;
+using TestTaskWithDB.Model;
 
 namespace TestTaskWithDB.Abstractions
 {
@@ -25,5 +26,12 @@ namespace TestTaskWithDB.Abstractions
         /// </summary>
         /// <returns>Список моделй</returns>
         Task<List<Employee>> GetUniqueEmployees();
+        /// <summary>
+        /// Метод получения всех строк справочника сотрудников, 
+        /// <br/>заданного опла и чьё полное имя начинается спереданных символов
+        /// </summary>
+        /// <returns>Список моделй</returns>
+        Task<List<Employee>> Get(string prefixFullName, Gender gender, bool asTracking);
+        Task<List<Employee>> GetFunc(string prefixFullName, Gender gender, bool asTracking);
     }
 }

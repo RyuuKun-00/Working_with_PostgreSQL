@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
 using TestTaskWithDB.Abstractions;
 using TestTaskWithDB.DataAccess;
 
@@ -73,6 +74,12 @@ namespace TestTaskWithDB.Services
             {
                 return false;
             }
+
+        }
+
+        public void ClearCashe()
+        {
+            _context.ChangeTracker.Clear();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.Extensions.Logging;
 using TestTaskWithDB.Abstractions;
+using TestTaskWithDB.Enums;
 using TestTaskWithDB.Model;
 
 namespace TestTaskWithDB.Services
@@ -35,6 +36,20 @@ namespace TestTaskWithDB.Services
         {
             var result = await _repository.GetUniqueEmployees();
             _logger.LogInformation($"Получено сотрудников с уникальными ФИО+дата: {result.Count}");
+            return result;
+        }
+
+        public async Task<List<Employee>> Get(string prefixFullName, Gender gender, bool asTracking)
+        {
+            var result = await _repository.Get(prefixFullName,gender,asTracking);
+            _logger.LogInformation($"Получено сотрудников: {result.Count}");
+            return result;
+        }
+
+        public async Task<List<Employee>> GetFunc(string prefixFullName, Gender gender, bool asTracking)
+        {
+            var result = await _repository.GetFunc(prefixFullName, gender,asTracking);
+            _logger.LogInformation($"Получено сотрудников: {result.Count}");
             return result;
         }
     }

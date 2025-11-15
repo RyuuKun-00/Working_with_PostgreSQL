@@ -3,6 +3,8 @@
 using Microsoft.EntityFrameworkCore;
 using TestTaskWithDB.Abstractions;
 using TestTaskWithDB.DataAccess.Entities;
+using TestTaskWithDB.DataAccess.Extensions;
+using TestTaskWithDB.Enums;
 using TestTaskWithDB.Model;
 
 namespace TestTaskWithDB.DataAccess.Repositories
@@ -61,6 +63,30 @@ namespace TestTaskWithDB.DataAccess.Repositories
             return entities.Select<EmployeeEntity, Employee>(e => new Employee(e.Id, e.FullName, e.DOB, e.Gender))
                            .ToList();
         }
+
+        public async Task<List<Employee>> Get(string prefixFullName,Gender gender, bool asTracking)
+        {
+            var entities =await _context.Employees
+                                  .Where(e => e.Gender == gender && EF.Functions.Like(e.FullName, $"{prefixFullName}%"))
+                                  .SetTracking<EmployeeEntity>(asTracking)
+                                  .ToListAsync();
+
+            return entities.Select<EmployeeEntity, Employee>(e => new Employee(e.Id, e.FullName, e.DOB, e.Gender))
+                           .ToList();
+        }
+
+        public async Task<List<Employee>> GetFunc(string prefixFullName, Gender gender,bool asTracking)
+        {
+            var entities = await _context.Employees
+                                         .FromSqlRaw("Select * FROM GetEmpl({0}::varchar ,{1}::smallint);",
+                                         prefixFullName, gender)
+                                         .SetTracking<EmployeeEntity>(asTracking)
+                                         .ToListAsync();
+
+            return entities.Select<EmployeeEntity, Employee>(e => new Employee(e.Id, e.FullName, e.DOB, e.Gender))
+                           .ToList();
+        }
+
 
     }
 }

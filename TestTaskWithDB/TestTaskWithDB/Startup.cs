@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using TestTaskWithDB.Abstractions;
 using TestTaskWithDB.DataAccess;
 using TestTaskWithDB.DataAccess.Repositories;
@@ -41,7 +42,11 @@ namespace TestTaskWithDB
             services.AddSingleton<IInputArguments, InputArguments>(_ => new InputArguments(args));
             // Добавление строки подключения к бд в контейнер
             var strCon = GetStringConnection();
-            services.AddDbContext<ApplicationContext>(o => o.UseNpgsql(strCon));
+            services.AddDbContext<ApplicationContext>(o =>
+            {
+                o.UseNpgsql(strCon)
+                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
             //==================ДОБАВЛЕНИЕ СЕРВИСОВ==================
 
             services.AddTransient<IDBService, DBService>();

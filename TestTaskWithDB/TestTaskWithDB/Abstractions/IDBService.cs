@@ -21,5 +21,7 @@
         /// Метод проверки на существования БД
         /// </summary>
         Task<bool> CheckDatabaseExistsAsync();
+
+        void ClearCashe();
     }
 }

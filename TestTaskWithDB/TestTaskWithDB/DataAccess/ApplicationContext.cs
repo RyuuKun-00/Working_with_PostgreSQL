@@ -16,6 +16,7 @@ namespace TestTaskWithDB.DataAccess
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) 
             : base(options) { }
+
         /// <summary>
         /// Метод создания БД
         /// </summary>
