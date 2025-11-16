@@ -1,14 +1,11 @@
-﻿
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TestTaskWithDB.Abstractions;
 using TestTaskWithDB.Enums;
 using TestTaskWithDB.Model;
-using TestTaskWithDB.Services;
 
 namespace TestTaskWithDB.Tasks
-{
+{ 
     public class TaskTwo : ICommandHandler
     {
         private readonly ILogger<TaskTwo> _logger;
@@ -25,6 +22,43 @@ namespace TestTaskWithDB.Tasks
 
         public async Task<bool> Invoke(string[] args)
         {
+            // Выводим задание
+            PrintTextTask();
+            // Десериализуем входные аргументы
+            var employees = Deserialization(args);
+
+            if(employees is null)
+            {
+                return false;
+            }
+            // Проверка БД
+            var isExist = await CheckDatabaseExists();
+            if (!isExist)
+            {
+                return false;
+            }
+
+            // Добавление сотрудника
+            var countEmployees = await _employeeService.AddEmployee(employees);
+
+            // Вывод результата работы 
+            string textResult = $"В БД добавлено {countEmployees} сотрудников.\r\n";
+
+            for(int i =0;i < employees.Count;i++)
+            {
+                textResult += $"# {i + 1}\r\n{employees[i].ToString()}";
+            }
+
+            _logger.LogInformation(textResult);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Метод вывода описания задачи в логгер
+        /// </summary>
+        private void PrintTextTask()
+        {
             _logger.LogInformation(
                 """
                 Задача:
@@ -35,17 +69,23 @@ namespace TestTaskWithDB.Tasks
                     У объекта должны быть методы, которые:
                         - отправляют объект в БД,
                         - рассчитывают возраст (полных лет).
+                Решение:
+                    Так как мы используем ADO.NET Entity Framework, то сотрудники на строне БД
+                    представляются сущностями EmployeeEntity, а на стороне бизнес-логики
+                    моделями Employee.
+                    Возраст сорудника возвращается из модели Employee, через свойство Age от 
+                    сегодняшнего дня(если ДР. сегодня, то год прибавляется).
+                    Для отправки в бд используется единичная отправка или сразу группы сотрудников
+                    через перегруженный метод одной транзакцией(внутренняя функциональность EF).
                 """);
-
-            var employee = Deserialization(args);
-
-            if(employee is null)
-            {
-                _logger.LogWarning("Не удалось десериализовать вводные параметры в объект.");
-                return false;
-            }
-
-            var isExists =await _dBService.CheckDatabaseExistsAsync();
+        }
+        /// <summary>
+        /// Метод проверки возможности работы с БД
+        /// </summary>
+        /// <returns>Результат проверки</returns>
+        private async Task<bool> CheckDatabaseExists()
+        {
+            var isExists = await _dBService.CheckDatabaseExistsAsync();
 
             if (!isExists)
             {
@@ -57,47 +97,87 @@ namespace TestTaskWithDB.Tasks
                 return false;
             }
 
-            await _employeeService.AddEmployee(employee);
-
-            _logger.LogInformation($"Добавлен:\r\n{employee.ToString()}");
+            _logger.LogDebug("БД досутпна для запросов!!!");
 
             return true;
         }
 
-        private Employee? Deserialization(string[] args)
+        /// <summary>
+        /// Метод десериализации аргументов приложения в объект <see cref="Employee">Employee</see> (Сотрудник)
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private List<Employee>? Deserialization(string[] args)
         {
-            string fullName = args[1];
-
-            var isTry = DateOnly.TryParse(args[2], out var dob);
-            if (!isTry)
+            var result = new List<Employee>();
+            // Парсим сотрудников
+            for(int i = 1;i<args.Length;i+=3)
             {
-                _logger.LogWarning(
+                // Первый аргумент ФИО
+                string fullName = args[i];
+                // Проверка на наличие аргумента
+                if(i+1 >= args.Length)
+                {
+                    _logger.LogWarning(
+$"""
+                    Не удалось востановить объект "Сотрудник".
+                    ФИО: {fullName}
+                    Причина:
+                        Не заданы "Дата рождения" и "Пол" сотрудника.
+                    """);
+                    return null;
+                }
+                // Попытка парсинга даты рождения сотрудника
+                var isTry = DateOnly.TryParse(args[i+1], out var dob);
+                // Если это не дата рождения -> ошибка
+                if (!isTry)
+                {
+                    _logger.LogWarning(
                     $"""
                     Не удалось востановить объект "Сотрудник".
+                    ФИО: {fullName}
                     Причина:
-                        Значение: {args[2]} - неудалось привести к типу даты.
+                        Значение: {args[i+1]} - неудалось привести к типу даты.
                     """);
-                return null;
-            }
-
-            isTry = Enum.TryParse<Gender>(args[3], true, out var gender);
-            if (!isTry)
-            {
-                _logger.LogWarning(
+                    return null;
+                }
+                // Проверка на наличие аргумента
+                if (i + 1 >= args.Length)
+                {
+                    _logger.LogWarning(
                     $"""
                     Не удалось востановить объект "Сотрудник".
+                    ФИО: {fullName}
+                    Дата рож.: {args[i + 1]}
                     Причина:
-                        Значение: {args[3]} - неудалось привести к типу Gender.
+                        Не задан "Пол" сотрудника.
                     """);
-                return null;
-            }
+                    return null;
+                }
+                // Попытка парсинга пола сотрудника
+                isTry = Enum.TryParse<Gender>(args[i+2], true, out var gender);
+                // Если это не пол -> ошибка
+                if (!isTry)
+                {
+                    _logger.LogWarning(
+                        $"""
+                    Не удалось востановить объект "Сотрудник".
+                    Причина:
+                        Значение: {args[i + 2]} - неудалось привести к типу Gender.
+                    """);
+                    return null;
+                }
 
-            return new Employee(Guid.NewGuid(), fullName, dob, gender);
+                result.Add(new Employee(Guid.NewGuid(), fullName, dob, gender));
+
+                _logger.LogDebug($"Всего спаршено сотрудников из аргументов: {result.Count}");
+            }
+            return result;
         }
 
         public override string ToString()
         {
-            return "Задача№2 " + this.GetType().Name;
+            return $"Задача: {this.GetType().Name} / Команда: {Command}";
         }
     }
 }

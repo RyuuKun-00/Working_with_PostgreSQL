@@ -11,7 +11,7 @@ namespace TestTaskWithDB.Tasks
     /// Реализация <see cref="ICommandHandler">ITask</see>
     /// <para>
     /// Задача 1
-    /// <br/><b>Задача</b>: Создание таблицы с полями справочника сотрудников,
+    /// <br/><b>Задача</b>: Создание бд и таблицы с полями справочника сотрудников,
     /// <br/>представляющими "Фамилию Имя Отчество", "дату рождения", "пол".
     /// </para>
     /// </summary>
@@ -27,19 +27,30 @@ namespace TestTaskWithDB.Tasks
         }
         public async Task<bool> Invoke(string[] args)
         {
+            // Выводим задание
+            PrintTextTask();
+            // Создаём таблицу и бд, если это необходимо
+            return await _dBService.CreateDB();
+        }
+        /// <summary>
+        /// Метод вывода описания задачи в логгер
+        /// </summary>
+        private void PrintTextTask()
+        {
             _logger.LogInformation(
                 """
                 Задача: 
                     Создание таблицы с полями справочника сотрудников,
                     представляющими "Фамилию Имя Отчество", "дату рождения", "пол".
+                Решение:
+                    Так как мы используем ADO.NET Entity Framework, то создание таблицы
+                    как и базы данных, можно возложить на него через метод EnsureCreated().
                 """);
-                
-            return await _dBService.CreateDB();
         }
 
         public override string ToString()
         {
-            return "Задача№1 "+this.GetType().Name;
+            return $"Задача: {this.GetType().Name} / Команда: {Command}";
         }
     }
 }

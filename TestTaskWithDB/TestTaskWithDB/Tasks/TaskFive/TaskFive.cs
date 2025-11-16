@@ -10,7 +10,6 @@ using TestTaskWithDB.Abstractions;
 using TestTaskWithDB.DataAccess;
 using TestTaskWithDB.Enums;
 using TestTaskWithDB.Services;
-using TestTaskWithDB.Tasks.TaskFour;
 
 namespace TestTaskWithDB.Tasks.TaskFive
 {
@@ -252,7 +251,7 @@ namespace TestTaskWithDB.Tasks.TaskFive
 
         public override string ToString()
         {
-            return "Задача№5 " + GetType().Name;
+            return $"Задача: {this.GetType().Name} / Команда: {Command}";
         }
     }
 }
