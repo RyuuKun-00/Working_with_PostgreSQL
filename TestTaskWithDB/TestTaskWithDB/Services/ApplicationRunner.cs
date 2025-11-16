@@ -1,8 +1,6 @@
 ﻿using TestTaskWithDB.Abstractions;
 using Microsoft.Extensions.Logging;
 using TestTaskWithDB.Tasks;
-using TestTaskWithDB.Tasks.TaskFour;
-using TestTaskWithDB.Tasks.TaskFive;
 
 namespace TestTaskWithDB.Services
 {
@@ -44,7 +42,9 @@ namespace TestTaskWithDB.Services
                 _manager.AddCommandHandler(new TaskFour(_serviceProvider));
                 // добавление обработчика для команды 5
                 _manager.AddCommandHandler(new TaskFive(_serviceProvider));
-
+                // добавление обработчика для команды 6
+                _manager.AddCommandHandler(new TaskSix(_serviceProvider));
+                // Ожидаем выполнения команды
                 _manager.Execute(_arguments.Args).Wait();
 
                 _logger.LogInformation("Нажмите Enter для завершения работы.");

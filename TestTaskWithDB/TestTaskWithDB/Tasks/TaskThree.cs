@@ -7,17 +7,25 @@ using TestTaskWithDB.Model;
 
 namespace TestTaskWithDB.Tasks
 {
+    /// <summary>
+    /// Реализация <see cref="ICommandHandler">ITask</see>
+    /// <para>
+    /// Задача 3
+    /// <br/><b>Задача</b>:Вывод всех строк справочника сотрудников, с уникальным значением ФИО+дата, 
+    /// <br/>отсортированным по ФИО.Вывести ФИО, Дату рождения, пол, кол-во полных лет.
+    /// </para>
+    /// </summary>
     public class TaskThree : ICommandHandler
     {
         private readonly ILogger<TaskThree> _logger;
-        private readonly IEmployeeService _employeeService;
+        private readonly IEFEmployeeService _employeeService;
         private readonly IDBService _dBService;
         public string Command { get; set; } = "3";
 
         public TaskThree(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<TaskThree>>();
-            _employeeService = serviceProvider.GetRequiredService<IEmployeeService>();
+            _employeeService = serviceProvider.GetRequiredService<IEFEmployeeService>();
             _dBService = serviceProvider.GetRequiredService<IDBService>();
         }
 
@@ -25,6 +33,12 @@ namespace TestTaskWithDB.Tasks
         {
             // Выводим задание
             PrintTextTask();
+
+            _logger.LogInformation(
+                """
+                !!!!!Начало работы задачи!!!!!
+                Для подробностей измените уровень логирования в appsettings.json на Debug
+                """);
 
             // Проверка БД
             var isExist = await CheckDatabaseExists();
@@ -47,6 +61,8 @@ namespace TestTaskWithDB.Tasks
             var result = await _employeeService.GetUniqueEmployees();
 
             PrintEmployees(result);
+
+            _logger.LogInformation("!!!!!Конец работы задачи!!!!!");
 
             return true;
         }
@@ -89,7 +105,7 @@ namespace TestTaskWithDB.Tasks
                 return false;
             }
 
-            _logger.LogDebug("БД досутпна для запросов!!!");
+            _logger.LogDebug("БД доступна для запросов!!!");
 
             return true;
         }

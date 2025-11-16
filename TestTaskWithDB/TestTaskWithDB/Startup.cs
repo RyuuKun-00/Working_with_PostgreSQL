@@ -2,13 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using TestTaskWithDB.Abstractions;
-using TestTaskWithDB.DataAccess;
-using TestTaskWithDB.DataAccess.Repositories;
+using TestTaskWithDB.DataAccess.EntityFramework;
+using TestTaskWithDB.DataAccess.EntityFramework.Repositories;
+using TestTaskWithDB.DataAccess.Npgsql;
 using TestTaskWithDB.Model;
 using TestTaskWithDB.Services;
 using TestTaskWithDB.Tasks;
+using TestTaskWithDB.Utilities;
 
 namespace TestTaskWithDB
 {
@@ -49,10 +50,19 @@ namespace TestTaskWithDB
             });
             //==================ДОБАВЛЕНИЕ СЕРВИСОВ==================
 
+            services.AddTransient<IDBRepository, DBRepository>();
             services.AddTransient<IDBService, DBService>();
-            services.AddSingleton<ITaskManager, TaskManager>();
+            
             services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-            services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<IEFEmployeeService, EFEmployeeService>();
+
+            services.AddTransient<INpgsqlRepository, NpgsqlRepository>();
+            services.AddTransient<INpgsqlEmployeeService, NpgsqlEmployeeService>();
+
+            services.AddSingleton<ITaskManager, TaskManager>();
+            services.AddSingleton<IGeneratorEmployees, GeneratorEmployees>();
+
+
 
 
             return services;

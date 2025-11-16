@@ -18,7 +18,7 @@ namespace TestTaskWithDB.Tasks
         public void AddCommandHandler(ICommandHandler handler)
         {
             handlers.Add(handler.Command, handler);
-            _logger.LogDebug("Добавлена обработка ключа: {key}\nФункция: {task}", handler.Command, handler.ToString());
+            _logger.LogDebug("Добавлена обработка ключа: {key}\r\nФункция: {task}", handler.Command, handler.ToString());
         }
 
         public async Task<bool> Execute(string[] args)

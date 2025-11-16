@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using TestTaskWithDB.Abstractions;
-using TestTaskWithDB.DataAccess;
 
 namespace TestTaskWithDB.Services
 {
@@ -12,18 +10,18 @@ namespace TestTaskWithDB.Services
     public class DBService : IDBService
     {
         private readonly ILogger<DBService> _logger;
-        private readonly ApplicationContext _context;
+        private readonly IDBRepository _dBRepository;
 
         public DBService(ILogger<DBService> logger,
-                         ApplicationContext context)
+                         IDBRepository dBRepository)
         {
             _logger = logger;
-            _context = context;
+            _dBRepository = dBRepository;
         }
 
         public async Task<bool> CreateDB()
         {
-            var isExists = await CheckDatabaseExistsAsync();
+            var isExists = await _dBRepository.CheckDatabaseExistsAsync();
             var result = String.Empty;
             var isCreated = true;
 
@@ -33,7 +31,7 @@ namespace TestTaskWithDB.Services
             }
             else
             {
-                isCreated = await _context.CreateDB();
+                isCreated = await _dBRepository.CreateDB();
                 result = isCreated
                          ? "Создана база данных."
                          : "Не удалось создать базу данных.";
@@ -45,7 +43,7 @@ namespace TestTaskWithDB.Services
 
         public async Task<bool> DeleteDB()
         {
-            var isExists = await CheckDatabaseExistsAsync();
+            var isExists = await _dBRepository.CheckDatabaseExistsAsync();
             var result = String.Empty;
             var isDeleted = true;
             if (isExists)
@@ -54,7 +52,7 @@ namespace TestTaskWithDB.Services
             }
             else
             {
-                isDeleted = await _context.DeleteDB();
+                isDeleted = await _dBRepository.DeleteDB();
                 result = isDeleted
                          ? "Удалена база данных."
                          : "Не удалось удалить базу данных.";
@@ -64,22 +62,18 @@ namespace TestTaskWithDB.Services
             return isDeleted;
         }
 
+        public async Task<int> ExecuteSql(string sql)
+        {
+            return await _dBRepository.ExecuteSql(sql);
+        }
         public async Task<bool> CheckDatabaseExistsAsync()
         {
-            try
-            {
-                return await _context.Database.CanConnectAsync();
-            }
-            catch
-            {
-                return false;
-            }
-
+            return await _dBRepository.CheckDatabaseExistsAsync();
         }
 
         public void ClearCashe()
         {
-            _context.ChangeTracker.Clear();
+            _dBRepository.ClearCashe();
         }
     }
 }

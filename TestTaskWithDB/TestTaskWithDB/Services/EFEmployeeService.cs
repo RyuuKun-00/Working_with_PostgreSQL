@@ -1,17 +1,20 @@
-﻿
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using TestTaskWithDB.Abstractions;
 using TestTaskWithDB.Enums;
 using TestTaskWithDB.Model;
 
 namespace TestTaskWithDB.Services
 {
-    public class EmployeeService : IEmployeeService
+    /// <summary>
+    /// Реализация <see cref="IEFEmployeeService">IEFEmployeeService</see>
+    /// <br/>Класс сервиса по управлению сотрудниками
+    /// </summary>
+    public class EFEmployeeService : IEFEmployeeService
     {
-        private readonly ILogger<EmployeeService> _logger;
+        private readonly ILogger<EFEmployeeService> _logger;
         private readonly IEmployeeRepository _repository;
 
-        public EmployeeService(ILogger<EmployeeService> logger,
+        public EFEmployeeService(ILogger<EFEmployeeService> logger,
                                IEmployeeRepository repository)
         {
             _logger = logger;
@@ -41,15 +44,15 @@ namespace TestTaskWithDB.Services
 
         public async Task<List<Employee>> Get(string prefixFullName, Gender gender, bool asTracking)
         {
-            var result = await _repository.Get(prefixFullName,gender,asTracking);
-            _logger.LogInformation($"Получено сотрудников: {result.Count}");
+            var result = await _repository.Get(prefixFullName.Trim(),gender,asTracking);
+            _logger.LogDebug($"Получено сотрудников: {result.Count}");
             return result;
         }
 
         public async Task<List<Employee>> GetFunc(string prefixFullName, Gender gender, bool asTracking)
         {
-            var result = await _repository.GetFunc(prefixFullName, gender,asTracking);
-            _logger.LogInformation($"Получено сотрудников: {result.Count}");
+            var result = await _repository.GetFunc(prefixFullName.Trim(), gender,asTracking);
+            _logger.LogDebug($"Получено сотрудников: {result.Count}");
             return result;
         }
     }

@@ -5,18 +5,31 @@ using TestTaskWithDB.Enums;
 using TestTaskWithDB.Model;
 
 namespace TestTaskWithDB.Tasks
-{ 
+{
+    /// <summary>
+    /// Реализация <see cref="ICommandHandler">ITask</see>
+    /// <para>
+    /// Задача 2
+    /// <br/><b>Задача</b>: Для работы с данными создать класс и создавать объекты.
+    /// <br/>При вводе создавать новый объект класса, с введенными пользователем данными.
+    /// <br/>При генерации строчек в базу создавать объект и
+    /// <br/>его отправлять в базу/формировать строчку для отправки нескольких строк в БД.
+    /// <br/>У объекта должны быть методы, которые:
+    /// <br/> - отправляют объект в БД,
+    /// <br/> - рассчитывают возраст (полных лет).
+    /// </para>
+    /// </summary>
     public class TaskTwo : ICommandHandler
     {
         private readonly ILogger<TaskTwo> _logger;
-        private readonly IEmployeeService _employeeService;
+        private readonly IEFEmployeeService _employeeService;
         private readonly IDBService _dBService;
         public string Command { get; set; } = "2";
 
         public TaskTwo(IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<ILogger<TaskTwo>>();
-            _employeeService = serviceProvider.GetRequiredService<IEmployeeService>();
+            _employeeService = serviceProvider.GetRequiredService<IEFEmployeeService>();
             _dBService = serviceProvider.GetRequiredService<IDBService>();
         }
 
@@ -24,6 +37,13 @@ namespace TestTaskWithDB.Tasks
         {
             // Выводим задание
             PrintTextTask();
+
+            _logger.LogInformation(
+                """
+                !!!!!Начало работы задачи!!!!!
+                Для подробностей измените уровень логирования в appsettings.json на Debug
+                """);
+
             // Десериализуем входные аргументы
             var employees = Deserialization(args);
 
@@ -50,6 +70,8 @@ namespace TestTaskWithDB.Tasks
             }
 
             _logger.LogInformation(textResult);
+
+            _logger.LogInformation("!!!!!Конец работы задачи!!!!!");
 
             return true;
         }
@@ -97,7 +119,7 @@ namespace TestTaskWithDB.Tasks
                 return false;
             }
 
-            _logger.LogDebug("БД досутпна для запросов!!!");
+            _logger.LogDebug("БД доступна для запросов!!!");
 
             return true;
         }

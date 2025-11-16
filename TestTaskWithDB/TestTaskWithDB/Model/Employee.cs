@@ -8,11 +8,20 @@ namespace TestTaskWithDB.Model
     public class Employee
     {
         /// <summary>
-        /// Идентификатор
+        /// Индитефикатор сотрудника
         /// </summary>
         public Guid Id { get; init; }
+        /// <summary>
+        /// ФИО
+        /// </summary>
         public string FullName { get; init; }
+        /// <summary>
+        /// Дата рождения
+        /// </summary>
         public DateOnly DOB { get; init; }
+        /// <summary>
+        /// Пол сотрудника
+        /// </summary>
         public Gender Gender { get; init; }
 
         public Employee(Guid id, string fullname,DateOnly dob, Gender gender)
@@ -22,7 +31,9 @@ namespace TestTaskWithDB.Model
             DOB = dob;
             Gender = gender;
         }
-
+        /// <summary>
+        /// Возраст
+        /// </summary>
         public int Age { 
         get
             {

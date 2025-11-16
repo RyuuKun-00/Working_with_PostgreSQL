@@ -1,8 +1,5 @@
-﻿
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Reflection.Metadata;
 using TestTaskWithDB.Abstractions;
 
 namespace TestTaskWithDB.Tasks
@@ -29,8 +26,18 @@ namespace TestTaskWithDB.Tasks
         {
             // Выводим задание
             PrintTextTask();
+
+            _logger.LogInformation(
+                """
+                !!!!!Начало работы задачи!!!!!
+                Для подробностей измените уровень логирования в appsettings.json на Debug
+                """);
             // Создаём таблицу и бд, если это необходимо
-            return await _dBService.CreateDB();
+            bool result = await _dBService.CreateDB();
+
+            _logger.LogInformation("!!!!!Конец работы задачи!!!!!");
+
+            return result;
         }
         /// <summary>
         /// Метод вывода описания задачи в логгер

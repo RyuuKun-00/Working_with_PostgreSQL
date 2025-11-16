@@ -6,7 +6,7 @@ namespace TestTaskWithDB.Abstractions
     /// <summary>
     /// Шаблон сервиса управлением моделями "Сотрудник"
     /// </summary>
-    public interface IEmployeeService
+    public interface IEFEmployeeService
     {
         /// <summary>
         /// Метод добавления сотрудника в БД
@@ -28,10 +28,17 @@ namespace TestTaskWithDB.Abstractions
         Task<List<Employee>> GetUniqueEmployees();
         /// <summary>
         /// Метод получения всех строк справочника сотрудников, 
-        /// <br/>заданного опла и чьё полное имя начинается спереданных символов
+        /// <br/>заданного пола и чьё полное имя начинается спереданных символов.
+        /// <br/>Получение через LINQ
         /// </summary>
         /// <returns>Список моделй</returns>
         Task<List<Employee>> Get(string prefixFullName, Gender gender, bool asTracking);
+        /// <summary>
+        /// Метод получения всех строк справочника сотрудников, 
+        /// <br/>заданного пола и чьё полное имя начинается спереданных символов.
+        /// <br/>Получение через FromSqlRaw
+        /// </summary>
+        /// <returns>Список моделй</returns>
         Task<List<Employee>> GetFunc(string prefixFullName, Gender gender, bool asTracking);
     }
 }

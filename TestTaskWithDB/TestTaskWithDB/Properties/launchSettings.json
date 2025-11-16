@@ -2,7 +2,7 @@
   "profiles": {
     "TestTaskWithDB": {
       "commandName": "Project",
-      "commandLineArgs": "5"
+      "commandLineArgs": "6"
     }
   }
 }
