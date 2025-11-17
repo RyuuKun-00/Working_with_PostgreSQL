@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TestTaskWithDB.Abstractions;
 using TestTaskWithDB.DataAccess.EntityFramework.Entities;
 using TestTaskWithDB.DataAccess.EntityFramework.Extensions;

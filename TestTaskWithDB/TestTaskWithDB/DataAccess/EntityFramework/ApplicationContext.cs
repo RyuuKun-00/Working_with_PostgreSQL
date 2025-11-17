@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TestTaskWithDB.DataAccess.EntityFramework.Entities;
 
 namespace TestTaskWithDB.DataAccess.EntityFramework

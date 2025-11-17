@@ -1,4 +1,4 @@
-﻿using TestTaskWithDB.Enums;
+using TestTaskWithDB.Enums;
 
 namespace TestTaskWithDB.DataAccess.EntityFramework.Entities
 {

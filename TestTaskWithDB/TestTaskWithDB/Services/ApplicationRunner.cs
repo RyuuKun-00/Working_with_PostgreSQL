@@ -1,4 +1,4 @@
-﻿using TestTaskWithDB.Abstractions;
+using TestTaskWithDB.Abstractions;
 using Microsoft.Extensions.Logging;
 using TestTaskWithDB.Tasks;
 

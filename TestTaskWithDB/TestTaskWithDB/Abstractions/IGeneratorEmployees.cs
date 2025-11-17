@@ -1,4 +1,4 @@
-﻿using TestTaskWithDB.Enums;
+using TestTaskWithDB.Enums;
 using TestTaskWithDB.Model;
 
 namespace TestTaskWithDB.Abstractions

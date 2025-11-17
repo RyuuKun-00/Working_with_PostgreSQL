@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TestTaskWithDB.Abstractions;
 
 namespace TestTaskWithDB.DataAccess.EntityFramework.Repositories

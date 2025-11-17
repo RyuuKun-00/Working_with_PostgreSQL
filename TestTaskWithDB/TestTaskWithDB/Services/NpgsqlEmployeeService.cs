@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using TestTaskWithDB.Abstractions;
 using TestTaskWithDB.Enums;
 using TestTaskWithDB.Model;

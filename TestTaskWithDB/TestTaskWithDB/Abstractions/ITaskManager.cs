@@ -1,4 +1,4 @@
-﻿namespace TestTaskWithDB.Abstractions
+namespace TestTaskWithDB.Abstractions
 {
     /// <summary>
     /// Шаблон обработки команд

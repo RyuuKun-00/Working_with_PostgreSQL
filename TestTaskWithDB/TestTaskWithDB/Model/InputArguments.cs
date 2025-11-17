@@ -1,4 +1,4 @@
-﻿using TestTaskWithDB.Abstractions;
+using TestTaskWithDB.Abstractions;
 
 namespace TestTaskWithDB.Model
 {

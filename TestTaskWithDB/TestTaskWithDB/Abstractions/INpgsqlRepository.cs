@@ -1,4 +1,4 @@
-﻿using TestTaskWithDB.Model;
+using TestTaskWithDB.Model;
 
 /// <summary>
 /// Шаблон репозитория записи и получения данных из бд через NPGSQL
