@@ -36,8 +36,11 @@ namespace TestTaskWithDB.Tasks
                 return false;
             }
 
+            _logger.LogInformation("Удаляем индекс (employees_name_gender), если он есть в БД");
             // Удаляем индекс из бд
             string dropIndex = "DROP INDEX IF EXISTS employees_name_gender;";
+
+            _logger.LogInformation("Вызываем задачу 5 для замеров без использования индексов!!!");
 
             await _dBService.ExecuteSql(dropIndex);
 
@@ -46,10 +49,13 @@ namespace TestTaskWithDB.Tasks
 
             await servise.Invoke(_arguments.Args);
 
+            _logger.LogInformation("Добавляем индекс (employees_name_gender), если его нет в БД");
             // Создаём индекс в БД
             string createIndex = "CREATE INDEX IF NOT EXISTS employees_name_gender ON public.\"Employees\" (\"FullName\",\"Gender\");";
 
             await _dBService.ExecuteSql(createIndex);
+
+            _logger.LogInformation("Вызываем задачу 5 для замеров с использованием индексов!!!");
 
             // Запускаем выполнение задачи пять по поиску сотрудников
             await servise.Invoke(_arguments.Args);

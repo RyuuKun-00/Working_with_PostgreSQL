@@ -64,7 +64,7 @@ namespace TestTaskWithDB.Tasks
             (long, int)[] EF_LINQ = new (long, int)[countSearchValues * 3];
             (long, int)[] NPGSQL = new (long, int)[SearchValues.Length];
 
-            _logger.LogInformation("Получение результатов заммеров запросов,\r\nможет занять продолжительное время ...");
+            _logger.LogInformation("Получение результатов замеров выполнения запросов,\r\nможет занять продолжительное время ...");
             // Выпоняем замеры
             await ExecuteRequests(SearchValues, EF_Func, EF_LINQ, NPGSQL);
 

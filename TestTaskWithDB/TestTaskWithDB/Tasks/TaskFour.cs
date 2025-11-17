@@ -55,6 +55,7 @@ namespace TestTaskWithDB.Tasks
             {
                 return false;
             }
+            _logger.LogInformation("Добавление сотрудников может занять некоторое время");
             // Сколько элементов нужно создать
             int countEmployees = 1000000;
             // Создаём записи сотрудников
