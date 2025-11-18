@@ -66,7 +66,7 @@ namespace TestTaskWithDB.Tasks
 
             for(int i =0;i < employees.Count;i++)
             {
-                textResult += $"# {i + 1}\r\n{employees[i].ToString()}";
+                textResult += $"# {i + 1}\r\n{employees[i].ToString()}\r\n";
             }
 
             _logger.LogInformation(textResult);
