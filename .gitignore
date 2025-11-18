@@ -10,6 +10,8 @@ Task/
 Migrations/
 Task.docx
 ~$Task.docx
+Report.docx
+~$Report.docx
 
 # Visual Studio Code
 .vscode/
