@@ -22,7 +22,7 @@ namespace TestTaskWithDB.Utilities
         {
             Random random = new Random(DateTime.Now.Microsecond);
             // Генерируем пол если не задан
-            Gender gend = gender ?? (random.Next() % 2 == 0 ? Gender.Male : Gender.Female);
+            Gender gend = gender ?? (Gender)(random.Next() % Enum.GetValues(typeof(Gender)).Length);
             // Генерируем имя с префиксом если задано
             string name = GenerateFullName(prefix);
             int rnd = random.Next();

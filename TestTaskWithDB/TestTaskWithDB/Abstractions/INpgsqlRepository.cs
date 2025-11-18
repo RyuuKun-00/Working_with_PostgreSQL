@@ -1,7 +1,7 @@
 using TestTaskWithDB.Model;
 
 /// <summary>
-/// Шаблон репозитория записи и получения данных из бд через NPGSQL
+/// Интерфейс репозитория для записи и получения данных из бд через NPGSQL
 /// </summary>
 public interface INpgsqlRepository
 {

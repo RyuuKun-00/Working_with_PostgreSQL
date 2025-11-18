@@ -1,7 +1,7 @@
 namespace TestTaskWithDB.Abstractions
 {
     /// <summary>
-    /// Шаблон управлением бд (создание и удаление)
+    /// Интрерфейс управлением бд (создание и удаление)
     /// </summary>
     public interface IDBService
     {

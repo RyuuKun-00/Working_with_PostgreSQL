@@ -15,11 +15,6 @@ namespace TestTaskWithDB.DataAccess.EntityFramework.Repositories
         {
             _context = context;
         }
-
-        /// <summary>
-        /// Метод создания БД
-        /// </summary>
-        /// <returns>Результат содания</returns>
         public async Task<bool> CreateDB()
         {
             var isCreated = await _context.Database.EnsureCreatedAsync();

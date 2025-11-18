@@ -1,7 +1,7 @@
 namespace TestTaskWithDB.Abstractions
 {
     /// <summary>
-    /// Шаблон управлением БД через EF Core
+    /// Интрерфейс управлением БД через EF Core
     /// </summary>
     public interface IDBRepository
     {
@@ -11,7 +11,7 @@ namespace TestTaskWithDB.Abstractions
         /// <returns>Результат создания</returns>
         Task<bool> CreateDB();
         /// <summary>
-        /// Метод удаления  БД
+        /// Метод удаления БД
         /// </summary>
         /// <returns>Результат удланения БД</returns>
         Task<bool> DeleteDB();

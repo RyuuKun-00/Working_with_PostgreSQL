@@ -36,15 +36,17 @@ namespace TestTaskWithDB.DataAccess.Npgsql
         }
         public async Task<int> InsertBatch(List<Employee> batch, string sqlCommand, CancellationToken token = default)
         {
+            // Проверка на наличие подключения к БД
             if (_connection is null || _connection.FullState == ConnectionState.Closed)
             {
                 throw new NullReferenceException("Перед обращением к БД, нужно открыть подключение методом ConnectionOpen.");
             }
-
+            // Открытие транзакции
             using var transaction = await _connection.BeginTransactionAsync(token);
             int count = 0;
             try
             {
+                // Открытие потока записи
                 using var writer = await _connection.BeginBinaryImportAsync(sqlCommand, token);
 
                 foreach (var employee in batch)
@@ -71,6 +73,7 @@ namespace TestTaskWithDB.DataAccess.Npgsql
 
         public async Task<List<Employee>> GetData(string sqlCommand, CancellationToken token = default)
         {
+            // Проверка на наличие подключения к БД
             if (_connection is null || _connection.FullState == ConnectionState.Closed)
             {
                 throw new NullReferenceException("Перед обращением к БД, нужно открыть подключение методом ConnectionOpen.");
@@ -78,6 +81,7 @@ namespace TestTaskWithDB.DataAccess.Npgsql
 
             try
             {
+                // Открытие потока считывания
                 using var reader = await _connection.BeginBinaryExportAsync(sqlCommand, token);
                 var list = new List<Employee>();
                 while (reader.StartRow() != -1)

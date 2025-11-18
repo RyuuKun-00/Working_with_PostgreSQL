@@ -4,7 +4,7 @@ using TestTaskWithDB.Model;
 namespace TestTaskWithDB.Abstractions
 {
     /// <summary>
-    /// Шаблон репозитория управлением сущностями "Сотрудник"
+    /// Интерфейс репозитория управлением сущностями "Сотрудник"
     /// </summary>
     public interface IEmployeeRepository
     {
@@ -32,6 +32,9 @@ namespace TestTaskWithDB.Abstractions
         /// <br/>заданного пола и чьё полное имя начинается спереданных символов.
         /// <br/>Получение через LINQ
         /// </summary>
+        /// <param name="prefixFullName">Префикс ФИО сотрудника</param>
+        /// <param name="gender">Пол сотрудника</param>
+        /// <param name="asTracking">Тригер на использование кэширования для запросов</param>
         /// <returns>Список моделй</returns>
         Task<List<Employee>> Get(string prefixFullName, Gender gender, bool asTracking);
         /// <summary>
@@ -39,6 +42,9 @@ namespace TestTaskWithDB.Abstractions
         /// <br/>заданного пола и чьё полное имя начинается спереданных символов.
         /// <br/>Получение через FromSqlRaw
         /// </summary>
+        /// <param name="prefixFullName">Префикс ФИО сотрудника</param>
+        /// <param name="gender">Пол сотрудника</param>
+        /// <param name="asTracking">Тригер на использование кэширования для запросов</param>
         /// <returns>Список моделй</returns>
         Task<List<Employee>> GetFunc(string prefixFullName, Gender gender, bool asTracking);
     }

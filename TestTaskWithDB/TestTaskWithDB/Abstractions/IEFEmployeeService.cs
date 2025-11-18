@@ -4,7 +4,7 @@ using TestTaskWithDB.Model;
 namespace TestTaskWithDB.Abstractions
 {
     /// <summary>
-    /// Шаблон сервиса управлением моделями "Сотрудник"
+    /// Интрерфейс сервиса управлением моделями "Сотрудник"
     /// </summary>
     public interface IEFEmployeeService
     {
@@ -24,21 +24,27 @@ namespace TestTaskWithDB.Abstractions
         /// Метод получения всех строк справочника сотрудников, 
         /// <br/>с уникальным значением ФИО+дата, отсортированным по ФИО
         /// </summary>
-        /// <returns>Список моделй</returns>
+        /// <returns>Список сотрудников</returns>
         Task<List<Employee>> GetUniqueEmployees();
         /// <summary>
         /// Метод получения всех строк справочника сотрудников, 
         /// <br/>заданного пола и чьё полное имя начинается спереданных символов.
         /// <br/>Получение через LINQ
         /// </summary>
-        /// <returns>Список моделй</returns>
+        /// <param name="prefixFullName">Префикс ФИО сотрудника</param>
+        /// <param name="gender">Пол сотрудника</param>
+        /// <param name="asTracking">Тригер на использование кэширования для запросов</param>
+        /// <returns>Список сотрудников</returns>
         Task<List<Employee>> Get(string prefixFullName, Gender gender, bool asTracking);
         /// <summary>
         /// Метод получения всех строк справочника сотрудников, 
         /// <br/>заданного пола и чьё полное имя начинается спереданных символов.
         /// <br/>Получение через FromSqlRaw
         /// </summary>
-        /// <returns>Список моделй</returns>
+        /// <param name="prefixFullName">Префикс ФИО сотрудника</param>
+        /// <param name="gender">Пол сотрудника</param>
+        /// <param name="asTracking">Тригер на использование кэширования для запросов</param>
+        /// <returns>Список сотрудников</returns>
         Task<List<Employee>> GetFunc(string prefixFullName, Gender gender, bool asTracking);
     }
 }

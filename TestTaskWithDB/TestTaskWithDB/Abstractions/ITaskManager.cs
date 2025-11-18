@@ -1,7 +1,7 @@
 namespace TestTaskWithDB.Abstractions
 {
     /// <summary>
-    /// Шаблон обработки команд
+    /// Интерфейс обработки команд
     /// </summary>
     public interface ITaskManager
     {

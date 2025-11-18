@@ -28,14 +28,17 @@ namespace TestTaskWithDB.Services
 
         public async Task<int> AddEmployees(List<Employee> employees, CancellationToken token = default)
         {
+            // Команда для потоковой записи сотрудников в БД
             var sqlCommand = "COPY public.\"Employees\"(\"Id\",\"FullName\",\"DOB\",\"Gender\") FROM STDIN BINARY";
+            // Запись сотрудников
             int countEmployees = await _repository.InsertBatch(employees, sqlCommand, token);
             _logger.LogDebug("Добавлено сотрудников в БД: {countEmployees}", countEmployees);
             return countEmployees;
         }
 
-        public async Task<List<Employee>> GetData(string prefixFullName,Gender gender, CancellationToken token = default)
+        public async Task<List<Employee>> GetEmployees(string prefixFullName,Gender gender, CancellationToken token = default)
         {
+            // Команда для потокового считвыния сотрудников
             var sqlCommand = 
                 $"""
                 COPY (SELECT *
@@ -44,6 +47,7 @@ namespace TestTaskWithDB.Services
                         AND "FullName" ILIKE '{prefixFullName.Trim()}%') 
                 TO STDIN BINARY
                 """;
+            // Считывание сотрудников
             var employees = await _repository.GetData( sqlCommand, token);
             _logger.LogDebug("Получено сотрудников: {Count}", employees.Count);
             return employees;

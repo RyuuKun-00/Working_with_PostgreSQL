@@ -4,7 +4,7 @@ using TestTaskWithDB.Model;
 namespace TestTaskWithDB.Abstractions
 {
     /// <summary>
-    /// Щаблон генерации сотрудников
+    /// Интерфейс генерации сотрудников
     /// </summary>
     public interface IGeneratorEmployees
     {
@@ -17,8 +17,8 @@ namespace TestTaskWithDB.Abstractions
         /// <summary>
         /// Метод генерации сотрудника с указанным префиксом ФИО и полом
         /// </summary>
-        /// <param name="prefix">Начало ФИО</param>
-        /// <param name="gender">Пол</param>
+        /// <param name="prefix">Префикс ФИО сотрудника</param>
+        /// <param name="gender">Пол сотрудника</param>
         /// <returns>Сорудник</returns>
         Employee GenerateEmployee(string? prefix = null, Gender? gender = null);
     }

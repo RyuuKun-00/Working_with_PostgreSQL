@@ -100,6 +100,7 @@ namespace TestTaskWithDB.Tasks
             _dBService.ClearCashe();
             for (int i = 0; i < countSearchValues; i++)
             {
+                // Замер времени выполнения запроса через функцию
                 stopwatch.Reset();
                 stopwatch.Start();
                 employees = await _employeeService.GetFunc(SearchValues[i].Item1,
@@ -110,6 +111,7 @@ namespace TestTaskWithDB.Tasks
                 employees = null;
                 GC.Collect();
 
+                // Замер времени выполнения запроса через LINQ
                 stopwatch.Reset();
                 stopwatch.Start();
                 employees = await _employeeService.Get(SearchValues[i].Item1,
@@ -126,6 +128,7 @@ namespace TestTaskWithDB.Tasks
             _dBService.ClearCashe();
             for (int i = 0; i < countSearchValues; i++)
             {
+                // Замер времени выполнения запроса через функцию
                 stopwatch.Reset();
                 stopwatch.Start();
                 employees = await _employeeService.Get(SearchValues[i].Item1,
@@ -136,6 +139,7 @@ namespace TestTaskWithDB.Tasks
                 employees = null;
                 GC.Collect();
 
+                // Замер времени выполнения запроса через LINQ
                 stopwatch.Reset();
                 stopwatch.Start();
                 employees = await _employeeService.Get(SearchValues[i].Item1,
@@ -152,6 +156,7 @@ namespace TestTaskWithDB.Tasks
             _dBService.ClearCashe();
             for (int i = 0; i < countSearchValues; i++)
             {
+                // Замер времени выполнения запроса через функцию
                 stopwatch.Reset();
                 stopwatch.Start();
                 employees = await _employeeService.GetFunc(SearchValues[i].Item1,
@@ -162,6 +167,7 @@ namespace TestTaskWithDB.Tasks
                 employees = null;
                 GC.Collect();
 
+                // Замер времени выполнения запроса через LINQ
                 stopwatch.Reset();
                 stopwatch.Start();
                 employees = await _employeeService.GetFunc(SearchValues[i].Item1,
@@ -182,7 +188,7 @@ namespace TestTaskWithDB.Tasks
             {
                 stopwatch.Reset();
                 stopwatch.Start();
-                employees = await _npgsqlEmployeeService.GetData(SearchValues[i].Item1,
+                employees = await _npgsqlEmployeeService.GetEmployees(SearchValues[i].Item1,
                                                                SearchValues[i].Item2);
                 stopwatch.Stop();
                 NPGSQL[i] = (stopwatch.ElapsedMilliseconds, employees.Count);

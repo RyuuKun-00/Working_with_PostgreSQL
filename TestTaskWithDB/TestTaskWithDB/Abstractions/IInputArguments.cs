@@ -1,7 +1,7 @@
 namespace TestTaskWithDB.Abstractions
 {
     /// <summary>
-    /// Шаблон хранения входящих аргументов
+    /// Интерфейс хранения входящих аргументов
     /// </summary>
     public interface IInputArguments
     {
